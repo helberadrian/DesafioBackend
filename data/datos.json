@@ -1,0 +1,32 @@
+[
+    {
+        "producto": "Vaso Verde",
+        "precio": 80,
+        "cantidad": 150,
+        "id": 1
+    },
+    {
+        "producto": "Vaso Amarillo",
+        "precio": 80,
+        "cantidad": 100,
+        "id": 2
+    },
+    {
+        "producto": "Plato",
+        "precio": 100,
+        "cantidad": 80,
+        "id": 3
+    },
+    {
+        "producto": "Jarra",
+        "precio": 180,
+        "cantidad": 62,
+        "id": 4
+    },
+    {
+        "producto": "Jarra Vidrio",
+        "precio": 250,
+        "cantidad": 34,
+        "id": 5
+    }
+]

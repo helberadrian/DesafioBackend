@@ -6,24 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desafio 8 - Backend</title>
     <link rel="stylesheet" href="styles.css">
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
 </head>
 <body>
     <h1>Backend - Desafio 8</h1>
     <hr>
-    <form action="/api/productos" method="get">
-        <h3>Lista de Productos</h3>
-        <button type="submit">Cargar</button>
-    </form>
-    <hr>
-    <form action="/api/productos" method="post">
+    <!-- Formulario de ingreso de nuevo producto -->
+    <form id="products">
         <h3>Nuevo Producto</h3>
         <input type="text" placeholder="Producto" name="producto">
         <input type="number" placeholder="Precio" name="precio">
         <input type="number" placeholder="Cantidad" name="cantidad">
         <button type="submit">Enviar</button>
     </form>
+
+    <!-- Tabla de lista de productos -->
+    <div id="productos-lista" style="display: none">
+        {{#each products}}
+        <div>
+          <strong>{{this.producto}}:</strong>
+          <em>{{ this.precio }}</em>
+          <strong>{{this.cantidad}}:</strong>
+        </div>
+        {{/each}}
+      </div>
 </body>
 </html>

@@ -1,23 +1,40 @@
 const express = require("express");
-const {Server: HttpServer} = require("http"); // {Server: HttpServer} de esta forma se renombra Server como HttpServer
-const {Server: IOserver} = require("socket.io");
+const productos = require("./routes/app");
+const morgan = require("morgan");
 const PORT = 3000;
+const almacen = require("./class/class");
+const product = new almacen();
 
+// Websocket
+const { Server: HttpServer } = require("http");
+const { Server: IOServer } = require("socket.io");
+
+// settings
 const app = express();
-const httpServer = new HttpServer(app); // es un requisito de socket.io
-const io = new IOserver(httpServer); // requisito para que funcione socket.io
+const httpServer = new HttpServer(app);
+const io = new IOServer(httpServer);
+app.set("json spaces", 2);
+app.use(require("./routes/app"));
 
-app.use(express.static("public")); // para poder usar el html y el css de la carpeta public
+// middlewares
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.static(__dirname, + "./public"));
+app.use("/api", productos);
 
-app.get("/", (req, res) =>{
-    res.sendFile("./public/index.html", {root: __dirname});
-})
+// Websocket - Server
+const ListaProductos = [];
+
+io.on("connection", (socket) => {
+    socket.on("new_product", (data) =>{
+        product.getAll(ListaProductos);
+        ListaProductos.push(data);
+        io.sockets.emit("product_received", ListaProductos);
+    });
+});
 
 // starting the server
 const server = app.listen(PORT, () =>{
     console.log(`Servidor conectado en puerto ${server.address().port}`);
 });
-
-io.on("Connection", (socket) =>{
-    console.log("Usuario Conectado");
-})
